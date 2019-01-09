@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 不同的maper 有不同的命名空间，防止因为CRUD的名字相同而产生的CRUD操作没有结果 -->
+<mapper namespace="com.xxx.dao.UserMapping">
+
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO User( username, password, birthday)
+		VALUES(#{username}, #{password}, #{birthday})
+	</insert>
+
+	<update id="update" parameterType="User">
+		UPDATE User set username =
+		${username},password= #{password} ,birthday = #{birthday} WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM User WHERE id = #{id}
+	</delete>
+
+
+	<!-- id:具有唯一标识符相对应的命名空间下 resultType:语句所返回的类型 填入相应的接口。 parameterType：传入此参数类型的完全限定名或者别名 
+		：：java.lang.Long; -->
+
+	<select id="list" resultType="User">
+		SELECT id,username,password,birthday FROM User
+	</select>
+
+
+	<select id="login" resultType="User" parameterType="User">
+		SELECT id,username,password,birthday FROM User WHERE username = #{username}
+		AND password = #{password}
+	</select>
+
+
+
+</mapper>

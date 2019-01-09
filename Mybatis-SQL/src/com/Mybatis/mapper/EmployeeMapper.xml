@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Mybatis.mapper.EmployeeMapper">
+
+
+
+	<!-- 此条件判断是否成立 一下两个可以同时存在 -->
+	<!-- where可以判断当前sql中是否有where 如果没有添加 -->
+	<!-- where 元素只会在至少有一个子元素的条件返回 SQL 子句的情况下才去插入“WHERE”子句。 而且，若语句的开头为“AND”或“OR”，where 
+		元素也会将它们去除。 -->
+	<select id="list" resultType="Employee">
+		SELECT id,username,address,price,kind FROM employee
+		<where>
+			<if test="minprice != null">
+				AND price >= #{minprice}
+			</if>
+			<if test="maxprice != null">
+				AND price &lt;= #{maxprice}
+			</if>
+		</where>
+	</select>
+
+
+	<!--<trim> 自定义标签 用于 WHERE set prefix="WHERE" 加上前缀 prefixOverrides="AND | 
+		OR" 掉第一个and或者是or -->
+	<select id="list2" resultType="Employee">
+		SELECT id,username,address,price,kind FROM employee
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="minprice != null">
+				AND price >= #{minprice}
+			</if>
+			<if test="maxprice != null">
+				AND price &lt;= #{maxprice}
+			</if>
+		</trim>
+	</select>
+
+
+
+
+	<!-- 此条件与java的switch相似只能选其一使用 两者不能共存 -->
+	<!--不建议写入<otherwish>标签 -->
+	<select id="listArray" resultType="Employee">
+		SELECT * FROM employee WHERE kind = 1
+		<choose>
+			<when test="minprice != null">
+				AND price >= #{minprice}
+			</when>
+			<when test="maxprice != null">
+				AND price &lt;= #{maxprice}
+			</when>
+
+		</choose>
+	</select>
+
+
+
+
+	<!-- collection ：collection属性的值有三个分别是list、array、map三种，分别对应的参数类型为：List、数组、map集合，我在上面传的参数为数组，所以值为array 
+		item ： 表示在迭代过程中每一个元素的别名 index ：表示在迭代过程中每次迭代到的位置（下标） open ：前缀 close ：后缀 separator 
+		：分隔符，表示迭代时每个元素之间以什么分隔 -->
+
+	<select id="listCollection" resultType="Employee">
+		SELECT * FROM employee WHERE id in
+		<foreach collection="id" open="(" close=")" separator=","
+			item="id">
+			#{id}
+		</foreach>
+
+	</select>
+
+
+
+
+	<!-- set方法自动删除最后一个条件的逗号并在前置添加Set 当参数为空时将执行if的操作自动减少相应的字段并为最后和前置减去逗号或者添加set -->
+	<update id="update">
+		UPDATE employee
+		<set>
+			<if test="username != null">username = #{username},</if>
+			<if test="address != null">address = #{address},</if>
+			<if test="price != null">price = #{price},</if>
+			<if test="kind != null">kind = #{kind},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+
+
+	<!-- prefix="SET" 前缀设置 suffixOverrides="," 后缀取消 suffix="WHERE id = #{id}" 
+		后缀加入 -->
+	<update id="update2">
+		UPDATE employee
+		<trim prefix="SET" suffixOverrides="," suffix="WHERE id = #{id}">
+			<if test="username != null">username = #{username},</if>
+			<if test="address != null">address = #{address},</if>
+			<if test="price != null">price = #{price},</if>
+			<if test="kind != null">kind = #{kind},</if>
+		</trim>
+	</update>
+
+
+
+
+
+
+
+
+
+</mapper>
+  

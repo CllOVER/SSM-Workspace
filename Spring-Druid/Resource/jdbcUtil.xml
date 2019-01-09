@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+           ">
+           
+           
+           <!-- 加载jdbc的配置文件 system-properties-mode="NEVER"  NEVER：只查找properties-ref、location     -->
+           <!-- location   引入外置配置文件的根目录 -->
+           <!-- <context:property-placeholder 可以使用El来引入外置参数
+           而<context:property-placeholder/>这个基于命名空间的配置，其实内部就是创建一个PropertyPlaceholderConfigurer Bean而已 -->
+           
+           	<!-- 当存在两个以上的需要加载的properties文件  分开写可以给后面加上 ignore-unresolvable="true" 忽略只加载第一行的执行 -->
+           <context:property-placeholder location="classpath:druid.properties" system-properties-mode="NEVER" ignore-unresolvable="true" />
+           <context:property-placeholder location="classpath:Value.properties" ignore-unresolvable="true"/>
+           
+           <!--配置value的注解 -->
+           <bean id="valueBean" class="Value.ValueBean" />
+           
+         
+           <!-- jdbc固定内容配置  -->
+           
+           <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"> 
+           
+           <!-- 用El表达式来丛外部文件中导入值 -->
+           <property name="url" value="${jdbc.url}"/>
+           <property name="password" value="${jdbc.password}"/>
+           <property name="username" value="${jdbc.username}"/>
+           <property name="driverClassName" value="${jdbc.driverClassName}"/>
+           
+           </bean>
+           
+           
+           
+           </beans>

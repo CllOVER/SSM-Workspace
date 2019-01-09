@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 引用导入外置文件 -->
+	<properties resource="druid.properties" />
+
+
+
+	<!-- log4j日志设置 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<!-- 延迟加载 ，不需要的内容不立即执行加载， -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 延迟加载触发方法 对方法进行延迟加载 toString clone  equals hascode -->
+		<setting name="lazyLoadTriggerMethods" value="clone"/>
+		<!-- 禁用积极延迟加载（不禁用下任何方法都会调用延迟加载） -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+		
+		
+
+	<!-- 别名 对结果类型起别名 -->
+	<typeAliases>
+		<!-- <typeAlias type="com.Mybatis.domain.Users" alias="Users"/> -->
+		<package name="com.Mybatis" />
+	</typeAliases>
+
+	<!-- 数据库环境配置 -->
+	<!-- 默认使用哪一个环境变量 -->
+	<environments default="development">
+		<environment id="development">
+			<!-- 事务管理器 -->
+			<transactionManager type="JDBC">
+			</transactionManager>
+
+			<!-- 数据库连接池管理 -->
+			<dataSource type="POOLED">
+				<property name="url" value="${druid.url}" />
+				<property name="driver" value="${druid.driver}" />
+				<property name="username" value="${druid.username}" />
+				<property name="password" value="${druid.password}" />
+			</dataSource>
+
+		</environment>
+	</environments>
+	
+	<!-- 映射文件关联 -->
+	<mappers>
+		<mapper resource="com/Mybatis/mapper/Clerkmapper.xml" />
+		<mapper resource="com/Mybatis/mapper/Departmentmapper.xml" />
+	</mappers>
+
+</configuration>

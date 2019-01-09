@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Mybatis.mapper.EmployeeMapper">
+
+	<!-- 存放公共sql语句 -->
+	<sql id="public_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="keyworld != null">
+				AND username LIKE concat('%',#{keyworld},'%')
+			</if>
+			<if test="minprice != null">
+				AND price >= #{minprice}
+			</if>
+			<if test="maxprice != null">
+				AND price &lt;= #{maxprice}
+			</if>
+		</trim>
+	</sql>
+
+
+	<!-- 高级查询 -->
+	<select id="AdviceQuery" resultType="Employee">
+		SELECT * FROM employee
+		<include refid="public_condition"></include>
+		<if test="PageSize > 0">
+		LIMIT #{start},#{PageSize}
+		</if>
+		
+	</select>
+
+
+
+	<select id="PageQuery" resultType="int">
+		SELECT count(*) FROM employee
+		<include refid="public_condition"></include>
+
+	</select>
+
+
+
+</mapper>
+  

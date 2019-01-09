@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+           ">
+           
+           <!-- Di解析器 -->
+          <context:annotation-config/>
+          
+           <!-- IOC解析器 -->
+          <context:component-scan base-package="service,Dao"/>
+            
+            <!-- Dao配置 -->
+           <bean id="iEmployeeDao" class="dao.impl.IEmployeeDaoimpl" />
+           
+      		<!-- service配置 -->
+ 			<bean id="iEmployeeService" class="service.impl.IEmployeeServiceimpl">
+ 			<property name="dao" ref="iEmployeeDao"></property>
+ 			
+ 			</bean>
+           <!-- 事务管理配置 -->
+           <bean id="manager_main" class="TranscationMa.Manager_main"/>
+           <bean id="manager_second" class="TranscationMa.Manager_second"/>
+           
+           <!-- 代理配置 -->
+           <bean id="employeeProxy" class="proxy.EmployeeProxy">
+           <property name="manager_m" ref="manager_main"></property>
+          	<property name="service" ref="iEmployeeService"></property>
+           </bean>
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           </beans>

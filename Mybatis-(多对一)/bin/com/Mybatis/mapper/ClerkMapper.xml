@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Mybatis.mapper.ClerkMapper">
+
+
+
+<!-- 数据库中的信息与java中的属性不同时 -->
+	<resultMap type="Clerk" id="base" >
+		<id column="id"  property="id"/>
+		<result column="name" property="name"/>
+		
+		
+		<!--  关联关系
+		column：数据库中的列名,或者是列的别名。
+		property：设置的
+		 -->
+		<association property="dept" javaType="Department" column="dept_id"
+			select="com.Mybatis.mapper.DepartmentMapper.get" />
+
+	</resultMap>
+
+
+	<select id="get" resultMap="base">
+		SELECT * FROM clerk WHERE id = #{id}
+	</select>
+
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+ 		INSERT INTO Clerk (name,dept_id) VALUES (#{name},#{dept.id})
+	</insert>
+
+</mapper>
+  

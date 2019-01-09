@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 不同的maper 有不同的命名空间，防止因为CRUD的名字相同而产生的CRUD操作没有结果 -->
+
+<mapper namespace="com.Mybatis.mapper.UsersMapper">
+
+
+<!-- 解决数据库列名和对象的列名不一致的问题，导致结果为null -->
+
+
+
+	<!-- id:具有唯一标识符相对应的命名空间下 resultType:语句所返回的类型 填入相应的接口。 
+	parameterType：传入此参数类型的完全限定名或者别名 ：：java.lang.Long; -->
+
+
+	<select id="get" resultType="Users">
+		SELECT * FROM users WHERE id = #{id}
+	</select>
+
+	<select id="getAll" resultType="Users">
+		SELECT * FROM users
+	</select>
+
+	<!-- 查询总计（类别为int类型） -->
+	<select id="queryCount" resultType="int">
+		SELECT COUNT(*) FROM users
+	</select>
+
+	<update id="update">
+		UPDATE users set username = #{username} , salary = #{salary} WHERE id =
+		#{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM users WHERE id = #{id}
+	</delete>
+
+	<!-- 单条件添加 ，条使用id自动生成 -->
+	<!-- keyProperty="id" 将自动生成的值提交给属性，配合useGeneratedKeys="true" 一起使用 -->
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO users(username,salary) VALUES(#{username},#{salary})
+	</insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

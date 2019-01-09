@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+           ">
+           
+           <!-- Di解析器 -->
+          <context:annotation-config/>
+          
+           <!-- IOC解析器 -->
+          <context:component-scan base-package="service,Dao"/>
+            
+            
+           <!-- 使用注解配置了dao -->
+          
+           
+           <!-- 配置事务管理 -->
+           <bean id="manager" class="Transcation.Manager"></bean>
+           
+           
+            <!-- 配置service -->
+           <bean id="ClientServiceDao" class="service.impl.ClientServiceDaoimpl">
+           <property name="dao" ref="clientDao"></property>
+           </bean>
+       
+           
+          <bean id="transcationProxyhandle" class="proxy.TranscationProxyhandle">
+          <property name="service" ref="ClientServiceDao"></property>
+          <property name="dao" ref="manager"></property>
+          </bean>
+           
+         
+           
+ 
+           
+           </beans>

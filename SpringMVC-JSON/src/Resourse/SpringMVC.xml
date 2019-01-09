@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+           ">
+           
+           
+           <!-- IOC解析器 -->
+      <context:component-scan base-package="com.*"/>
+           
+           <!-- SpringMVC解析器 
+           几乎所有的SpringMVC注解都需要解析器
+           支持处理器映射的解析  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+            处理器适配器的解析  org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+            和视图解析 org.springframework.web.servlet.view.InternalResourceViewResolver
+           -->
+          	
+           <!-- 处理静态资源文件请求
+           "/"对静态资源造成拦截  所以需要使用以下配置
+           	 对servlet的默认进行更改  -->
+           <mvc:default-servlet-handler/>
+        <!-- 
+        setPrefix(prefix); 前缀
+		setSuffix(suffix);后缀
+		
+		配置视图解析器
+		 -->
+           <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+           <property name="prefix" value="/WEB-INF/views/"></property>
+           <property name="suffix" value=".jsp"></property>
+           </bean>
+           
+           </beans>

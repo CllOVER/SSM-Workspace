@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- 配置文件建议使用id   -->
+<!-- bean 配置文件  property（属性）-->
+<bean id="User" class="entry.User">
+		<property name="username" value="廖霞"></property>
+		<property name="password" value="123"></property>
+		<property name="id" value="01"></property>
+		<property name="email" value="18609933956@163.com"></property>
+</bean>
+
+</beans>
